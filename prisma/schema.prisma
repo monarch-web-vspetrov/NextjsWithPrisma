@@ -13,10 +13,20 @@ datasource db {
 model Post {
   id        String   @id @default(cuid())
   title     String
+  slug      String   @unique
   content   String
   likes     Int      @default(0)
   dislikes  Int      @default(0)
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt // Призма таким образом понимает, что когда происходит обновление, updatedAt должен обновляться
+
+  // комбинация уникальности полей 
+  // @@unique([title, slug])
+
+  // если я хочу использовать к коед camelCase, но не хочу его использовать в БД=
+  // @@map("title_to_slug")
+
+  // оптимизация запросов по индексу
+  // @@index(slug)
 }
