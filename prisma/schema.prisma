@@ -10,6 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id             String @id @default(cuid())
+  email          String @unique
+  hashedPassword String
+  posts          Post[]
+}
+
 model Post {
   id        String   @id @default(cuid())
   title     String
@@ -29,4 +36,10 @@ model Post {
 
   // оптимизация запросов по индексу
   // @@index(slug)
+  User User? @relation(fields: [authorId], references: [id]) // тут мы говорим таблице, что у поста может быть автор и его айди берется из таблицы юзер по id
+  // * Данный вариант называется 1 ко многим
+
+  // User User[] // * Данный вариант называется многие ко многим, когда у одного поста может быть несколько авторов
+
+  authorId String?
 }

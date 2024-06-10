@@ -9,3 +9,8 @@ export type typePost = {
   updatedAt?: string;
   date: string;
 };
+
+export type newPostData = {
+  title: string;
+  content: string;
+};
